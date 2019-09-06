@@ -1,0 +1,40 @@
+version: '3'
+
+networks:
+
+  app-tier:
+    driver: bridge
+
+services:
+
+  node:
+    container_name: node
+    build:
+      context: ./docker
+    restart: always
+    environment:
+      - 'TZ=${TIMEZONE}'
+    networks:
+      - app-tier
+    expose:
+      - '3000'
+    volumes:
+      # - ./public-html/first-nuxt-app:/app:rw
+      - ./public-html/v2-buyer:/app:rw
+
+  httpd:
+    container_name: nginx
+    image: bitnami/nginx:${NGINX_VERSION}-${OS_VERSION}
+    restart: always
+    environment:
+      - 'TZ=${TIMEZONE}'
+    depends_on:
+      - node
+    networks:
+      - app-tier
+    ports:
+      - '80:8080'
+      - '443:443'
+    volumes:
+      - ./config/nginx/vhost/nuxt.conf:/opt/bitnami/nginx/conf/vhosts/nuxt.conf:ro
+      - ./logs/nginx/${NGINX_VERSION}:/opt/bitnami/nginx/logs:rw
