@@ -7,4 +7,15 @@ npm-debug*
 .nuxt
 ```
 
+## Don't forget to add `node-sass` & `sass-loader` for *build* process 
+
+Developement
+
+> yarn add node-sass sass-loader -D
+
+Production (build)
+
+> yarn add node-sass sass-loader
+
+
 @asapdotid 2019
