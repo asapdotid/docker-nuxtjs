@@ -9,8 +9,11 @@ services:
 
   node:
     container_name: node
-    build:
-      context: ./docker
+    # Get image from dockerhub
+    image: asapdotid/nuxtjs-production:1.0.0
+    # Manual with dockerfile
+    # build:
+    #   context: ./docker
     restart: always
     environment:
       - 'TZ=${TIMEZONE}'
